@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  backend:
+    #image: socialnetwork-api:multi
+    build: socialnetwork_api/
+    container_name: socialnetwork-api
+    environment:
+      - DB_PASSWORD=oleg
+      - DB_HOST=db
+      - ORIGIN=${FRONTEND_URL:-http://localhost:3000}
+    ports:
+      - "5000:5000"
+    volumes:
+      - image-data:/app/files
+    networks:
+      - socialnetwork
+    depends_on:
+      - db
+    command: npm run start
+
+  frontend:
+    build: SW/
+    container_name: socialnetwork-frontend
+    environment:
+      - REACT_APP_URL=${API_URL:-http://localhost:5000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  db:
+    #image: socialnetwork-db
+    build: db_postgres/
+    container_name: socialnetwork-db
+    ports:
+      - "5432:5432"
+    networks:
+      - socialnetwork
+
+volumes:
+  image-data:
+
+networks:
+  socialnetwork: {}

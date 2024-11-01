@@ -1,0 +1,6 @@
+[submodule "socialnetwork_api"]
+	path = socialnetwork_api
+	url = https://github.com/Black1955/socialnetwork_api.git
+[submodule "SW"]
+	path = SW
+	url = https://github.com/Black1955/SW
